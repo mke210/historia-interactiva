@@ -175,7 +175,7 @@ main{padding:34px clamp(16px,4vw,54px) 60px;min-width:0}
 
 .barra-top{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:10px;color:var(--tinta2)}
 .barra-top .pts{color:var(--verde)}
-.progreso{height:12px;background:var(--papel2);border-radius:999px;overflow:hidden;border:1px solid var(--borde);margin-bottom:24px}
+.progreso{display:none;height:12px;background:var(--papel2);border-radius:999px;overflow:hidden;border:1px solid var(--borde);margin-bottom:24px}
 .progreso div{height:100%;width:0;background:linear-gradient(90deg,var(--oro),var(--oro2));transition:width .4s}
 .pregunta{font-size:clamp(1.2rem,2.6vw,1.6rem);font-weight:800;color:var(--marino);margin-bottom:20px;line-height:1.3}
 .opciones{display:grid;gap:12px}
@@ -205,6 +205,25 @@ main{padding:34px clamp(16px,4vw,54px) 60px;min-width:0}
 .medalla div{position:relative;font-family:'Cinzel',Georgia,serif;font-weight:800;color:var(--marino);line-height:1}
 .medalla div b{font-size:2.6rem;display:block}
 .medalla div small{font-family:'Nunito',sans-serif;font-size:.85rem;color:var(--tinta2)}
+.q-emoji{font-size:clamp(3rem,8vw,4.4rem);line-height:1;text-align:center;margin-bottom:10px;animation:rebota .6s cubic-bezier(.2,.9,.3,1.5)}
+.inicio .q-emoji{font-size:clamp(4rem,10vw,5.5rem);animation:flota 2.4s ease-in-out infinite}
+@keyframes rebota{from{transform:scale(0) rotate(-20deg)}to{transform:none}}
+@keyframes flota{50%{transform:translateY(-10px) rotate(4deg)}}
+.pregunta{text-align:center}
+.pasos{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:20px;font-size:1.15rem}
+.pasos span{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:var(--papel2);border:1px solid var(--borde);font-size:.95rem}
+.pasos span.ahora{border:2px solid var(--marino);background:#fff;transform:scale(1.15)}
+.racha{color:var(--rojo)}
+.opcion .marca-r{margin-left:auto;font-size:1.35rem;flex:none}
+.aviso{display:none;gap:12px;align-items:center}
+.aviso.bien,.aviso.mal{display:flex}
+.aviso .cara{font-size:2.2rem;line-height:1;animation:rebota .5s cubic-bezier(.2,.9,.3,1.5)}
+.final .trofeo{font-size:clamp(4rem,11vw,6rem);line-height:1;animation:rebota .7s cubic-bezier(.2,.9,.3,1.5)}
+.estrellas{font-size:1.5rem;letter-spacing:2px;margin:6px 0 12px}
+.estrellas i{font-style:normal;opacity:.22;filter:grayscale(1)}
+.repaso li{padding-left:4px}
+.confeti{position:fixed;top:-50px;z-index:60;pointer-events:none;animation:cae linear forwards}
+@keyframes cae{to{transform:translateY(110vh) rotate(540deg)}}
 .final .msg{font-size:1.15rem;font-weight:700;color:var(--tinta2);margin-bottom:6px}
 .final .cal{font-weight:800;color:var(--rojo);margin-bottom:20px}
 .acciones{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:8px}
@@ -282,7 +301,7 @@ main{padding:34px clamp(16px,4vw,54px) 60px;min-width:0}
             <div id="listaClaves"></div>
             <div class="cta">
               <p>¿Ya exploraste todo?</p>
-              <button class="btn oro" id="irQuiz">Jugar el quiz</button>
+              <button class="btn oro" id="irQuiz">🎮 Jugar el quiz</button>
             </div>
           </div>
         </div>
@@ -326,11 +345,12 @@ main{padding:34px clamp(16px,4vw,54px) 60px;min-width:0}
    · zonas: cada recuadro de la infografía. "r" es su posición
      en la imagen, en pixeles: [x, y, ancho, alto].
    · preguntas: la PRIMERA opción es la correcta
-     (el juego las revuelve solo).
+     (el juego las revuelve solo); "i" es el emoji de la pregunta.
    ========================================================= */
 const TEMAS = [
 {
   id: 'descubrimiento',
+  emoji: '⛵',
   titulo: 'El Descubrimiento de América',
   corto: '1492 · Cristóbal Colón',
   imagen: 'infografia-descubrimiento.jpg',
@@ -395,25 +415,26 @@ const TEMAS = [
      dato:'Sin este encuentro, en Italia no habría salsa de jitomate, ni chocolate en Suiza, ni caballos en América.'}
   ],
   preguntas: [
-    {p:'¿Qué fue el Descubrimiento de América?', o:['El encuentro entre los europeos y el continente americano','Una guerra entre España y Asia','La fundación de la primera ciudad europea','Un viaje alrededor de todo el mundo'], e:'Fue el encuentro entre los europeos y el continente americano.'},
-    {p:'¿En qué año ocurrió el Descubrimiento de América?', o:['1492','1521','1810','1392'], e:'Ocurrió en 1492.'},
-    {p:'¿Cuál es la fecha exacta en que sucedió?', o:['12 de octubre de 1492','16 de septiembre de 1492','12 de diciembre de 1492','20 de noviembre de 1492'], e:'Sucedió el 12 de octubre de 1492.'},
-    {p:'¿Quién realizó el viaje?', o:['Cristóbal Colón','Hernán Cortés','Marco Polo','Américo Vespucio'], e:'Lo realizó Cristóbal Colón.'},
-    {p:'¿Al servicio de qué país navegaba Cristóbal Colón?', o:['España','Portugal','Inglaterra','Francia'], e:'Colón era un navegante al servicio de España.'},
-    {p:'¿Qué océano cruzó Colón para llegar a América?', o:['El océano Atlántico','El océano Pacífico','El océano Índico','El océano Ártico'], e:'Zarpó desde España y cruzó el océano Atlántico.'},
-    {p:'¿Qué nombre le dio Colón a la isla a la que llegó?', o:['San Salvador','Santa María','La Española','Nueva España'], e:'Llamó a la isla San Salvador.'},
-    {p:'¿En qué región actual se encuentra la isla a la que llegó Colón?', o:['En el Caribe','En el Mediterráneo','En el sur de Asia','En la costa de África'], e:'Llegó a una isla del actual Caribe.'},
-    {p:'¿Qué buscaban los europeos con este viaje?', o:['Una ruta marítima más corta para llegar a las Indias','Un nuevo continente para vivir','Escapar de una guerra en Europa','Demostrar que existían otros océanos'], e:'Buscaban una ruta marítima más corta hacia las Indias.'},
-    {p:'¿En qué continente se encuentran “las Indias” que buscaban los europeos?', o:['Asia','África','América','Oceanía'], e:'Las Indias están en Asia.'},
-    {p:'¿Qué querían obtener los europeos en las Indias?', o:['Especias y riquezas','Barcos y armas','Mapas y brújulas','Esclavos y tierras de cultivo'], e:'Querían obtener especias y riquezas.'},
-    {p:'¿Cuál de estas fue una consecuencia POSITIVA?', o:['Intercambio cultural y de productos','Explotación de los pueblos indígenas','Enfermedades','Pérdida de culturas y vidas'], e:'El intercambio cultural y de productos fue una consecuencia positiva.'},
-    {p:'¿Cuál de estas fue una consecuencia NEGATIVA?', o:['Explotación de los pueblos indígenas','Nuevas rutas comerciales','Mayor conocimiento del mundo','Intercambio de productos'], e:'La explotación de los pueblos indígenas fue una consecuencia negativa.'},
-    {p:'¿Cuál de las siguientes NO fue una consecuencia negativa?', o:['Nuevas rutas comerciales','Enfermedades','Pérdida de culturas y vidas','Explotación de los pueblos indígenas'], e:'Las nuevas rutas comerciales fueron una consecuencia positiva.'},
-    {p:'¿Por qué es importante el Descubrimiento de América?', o:['Marcó el inicio de la expansión europea en el mundo','Terminó con el comercio entre Europa y Asia','Unió a todos los países de Europa','Fue el primer viaje en barco de la historia'], e:'Marcó el inicio de la expansión europea y cambió la historia de la humanidad.'}
+    {i:'🌎', p:'¿Qué fue el Descubrimiento de América?', o:['El encuentro entre los europeos y el continente americano','Una guerra entre España y Asia','La fundación de la primera ciudad europea','Un viaje alrededor de todo el mundo'], e:'Fue el encuentro entre los europeos y el continente americano.'},
+    {i:'📅', p:'¿En qué año ocurrió el Descubrimiento de América?', o:['1492','1521','1810','1392'], e:'Ocurrió en 1492.'},
+    {i:'🗓️', p:'¿Cuál es la fecha exacta en que sucedió?', o:['12 de octubre de 1492','16 de septiembre de 1492','12 de diciembre de 1492','20 de noviembre de 1492'], e:'Sucedió el 12 de octubre de 1492.'},
+    {i:'⛵', p:'¿Quién realizó el viaje?', o:['Cristóbal Colón','Hernán Cortés','Marco Polo','Américo Vespucio'], e:'Lo realizó Cristóbal Colón.'},
+    {i:'👑', p:'¿Al servicio de qué país navegaba Cristóbal Colón?', o:['España','Portugal','Inglaterra','Francia'], e:'Colón era un navegante al servicio de España.'},
+    {i:'🌊', p:'¿Qué océano cruzó Colón para llegar a América?', o:['El océano Atlántico','El océano Pacífico','El océano Índico','El océano Ártico'], e:'Zarpó desde España y cruzó el océano Atlántico.'},
+    {i:'🏝️', p:'¿Qué nombre le dio Colón a la isla a la que llegó?', o:['San Salvador','Santa María','La Española','Nueva España'], e:'Llamó a la isla San Salvador.'},
+    {i:'🗺️', p:'¿En qué región actual se encuentra la isla a la que llegó Colón?', o:['En el Caribe','En el Mediterráneo','En el sur de Asia','En la costa de África'], e:'Llegó a una isla del actual Caribe.'},
+    {i:'🧭', p:'¿Qué buscaban los europeos con este viaje?', o:['Una ruta marítima más corta para llegar a las Indias','Un nuevo continente para vivir','Escapar de una guerra en Europa','Demostrar que existían otros océanos'], e:'Buscaban una ruta marítima más corta hacia las Indias.'},
+    {i:'🌏', p:'¿En qué continente se encuentran “las Indias” que buscaban los europeos?', o:['Asia','África','América','Oceanía'], e:'Las Indias están en Asia.'},
+    {i:'💰', p:'¿Qué querían obtener los europeos en las Indias?', o:['Especias y riquezas','Barcos y armas','Mapas y brújulas','Esclavos y tierras de cultivo'], e:'Querían obtener especias y riquezas.'},
+    {i:'👍', p:'¿Cuál de estas fue una consecuencia POSITIVA?', o:['Intercambio cultural y de productos','Explotación de los pueblos indígenas','Enfermedades','Pérdida de culturas y vidas'], e:'El intercambio cultural y de productos fue una consecuencia positiva.'},
+    {i:'👎', p:'¿Cuál de estas fue una consecuencia NEGATIVA?', o:['Explotación de los pueblos indígenas','Nuevas rutas comerciales','Mayor conocimiento del mundo','Intercambio de productos'], e:'La explotación de los pueblos indígenas fue una consecuencia negativa.'},
+    {i:'🤔', p:'¿Cuál de las siguientes NO fue una consecuencia negativa?', o:['Nuevas rutas comerciales','Enfermedades','Pérdida de culturas y vidas','Explotación de los pueblos indígenas'], e:'Las nuevas rutas comerciales fueron una consecuencia positiva.'},
+    {i:'🏆', p:'¿Por qué es importante el Descubrimiento de América?', o:['Marcó el inicio de la expansión europea en el mundo','Terminó con el comercio entre Europa y Asia','Unió a todos los países de Europa','Fue el primer viaje en barco de la historia'], e:'Marcó el inicio de la expansión europea y cambió la historia de la humanidad.'}
   ]
 },
 {
   id: 'primeros-humanos',
+  emoji: '🔥',
   titulo: 'Los primeros seres humanos',
   corto: 'Prehistoria · Hace 2.5 millones de años',
   imagen: 'infografia-primeros-humanos.jpg',
@@ -478,22 +499,150 @@ const TEMAS = [
      dato:'En México hay pinturas rupestres muy famosas en la Sierra de San Francisco, Baja California Sur. También son célebres las de Altamira (España) y Lascaux (Francia).'}
   ],
   preguntas: [
-    {p:'¿Quiénes fueron los primeros seres humanos?', o:['Nuestros ancestros, los primeros humanos que aparecieron en la Tierra','Los primeros habitantes de las ciudades','Los navegantes que llegaron a América','Los primeros agricultores de Europa'], e:'Fueron nuestros ancestros, los primeros seres humanos que aparecieron en la Tierra.'},
-    {p:'¿Cuáles son tres de los primeros seres humanos?', o:['Homo habilis, Homo erectus y Homo sapiens','Mexicas, mayas e incas','Griegos, romanos y egipcios','Nómadas, sedentarios y agricultores'], e:'Homo habilis, Homo erectus y Homo sapiens.'},
-    {p:'¿Hace cuánto tiempo aparecieron aproximadamente?', o:['Hace 2.5 millones de años','Hace 2,500 años','Hace 10,000 años','Hace 500 años'], e:'Aparecieron hace aproximadamente 2.5 millones de años.'},
-    {p:'¿En qué continente aparecieron?', o:['África','Asia','Europa','América'], e:'Aparecieron en África.'},
-    {p:'¿Qué pasó después de que aparecieron en África?', o:['Se extendieron por todo el mundo','Se quedaron siempre en el mismo lugar','Construyeron grandes ciudades','Viajaron en barco a América'], e:'Después se extendieron por todo el mundo.'},
-    {p:'¿Qué significa que eran nómadas?', o:['Que se trasladaban de un lugar a otro en busca de alimento','Que vivían siempre en el mismo lugar','Que sembraban sus propios alimentos','Que vivían en grandes ciudades'], e:'Eran nómadas: se trasladaban en busca de alimento.'},
-    {p:'¿Cómo conseguían su alimento?', o:['Cazaban, pescaban y recolectaban frutos','Sembraban maíz y trigo','Lo compraban en mercados','Criaban ganado en granjas'], e:'Cazaban, pescaban y recolectaban frutos.'},
-    {p:'¿Dónde vivían?', o:['En cuevas o chozas hechas con ramas y pieles de animales','En casas de piedra y ladrillo','En palacios y templos','En ciudades amuralladas'], e:'Vivían en cuevas o chozas hechas con ramas y pieles de animales.'},
-    {p:'¿Cuál de estos factores los hizo evolucionar?', o:['El trabajo en grupo','El uso de monedas','La invención de la escritura','La construcción de ciudades'], e:'Evolucionaron por la necesidad de sobrevivir, el uso de herramientas, el trabajo en grupo y el desarrollo del lenguaje.'},
-    {p:'¿Cuál de estos NO fue un factor que los hizo evolucionar?', o:['El comercio con monedas','La necesidad de sobrevivir','El uso de herramientas','El desarrollo del lenguaje'], e:'El comercio con monedas no aparece: es muy posterior.'},
-    {p:'¿De qué material eran sus primeras herramientas?', o:['De piedra','De hierro','De bronce','De plástico'], e:'Crearon herramientas de piedra.'},
-    {p:'¿Cuál fue uno de sus grandes descubrimientos?', o:['El fuego','La electricidad','La pólvora','La imprenta'], e:'Descubrieron el fuego.'},
-    {p:'¿Cómo se organizaban?', o:['Formaron grupos y familias','Formaron reinos con reyes','Formaron países con fronteras','Vivían completamente solos'], e:'Formaron grupos y familias.'},
-    {p:'Según la infografía, ¿qué surgió gracias a ellos?', o:['La cultura, la sociedad y el conocimiento','El comercio marítimo','Los imperios europeos','Las primeras máquinas'], e:'Gracias a ellos surgió la cultura, la sociedad y el conocimiento que hoy nos hace humanos.'},
-    {p:'¿Qué tipo de arte nos dejaron?', o:['Pinturas rupestres','Pinturas al óleo','Esculturas de bronce','Fotografías'], e:'Su arte fueron las pinturas rupestres.'},
-    {p:'¿Cuál de estos forma parte de su legado?', o:['El inicio de la historia de la humanidad','El descubrimiento de América','La invención del internet','La construcción de las pirámides'], e:'Su legado: la tecnología, el arte, la organización social y el inicio de la historia de la humanidad.'}
+    {i:'👣', p:'¿Quiénes fueron los primeros seres humanos?', o:['Nuestros ancestros, los primeros humanos que aparecieron en la Tierra','Los primeros habitantes de las ciudades','Los navegantes que llegaron a América','Los primeros agricultores de Europa'], e:'Fueron nuestros ancestros, los primeros seres humanos que aparecieron en la Tierra.'},
+    {i:'🧬', p:'¿Cuáles son tres de los primeros seres humanos?', o:['Homo habilis, Homo erectus y Homo sapiens','Mexicas, mayas e incas','Griegos, romanos y egipcios','Nómadas, sedentarios y agricultores'], e:'Homo habilis, Homo erectus y Homo sapiens.'},
+    {i:'⏳', p:'¿Hace cuánto tiempo aparecieron aproximadamente?', o:['Hace 2.5 millones de años','Hace 2,500 años','Hace 10,000 años','Hace 500 años'], e:'Aparecieron hace aproximadamente 2.5 millones de años.'},
+    {i:'🌍', p:'¿En qué continente aparecieron?', o:['África','Asia','Europa','América'], e:'Aparecieron en África.'},
+    {i:'🚶', p:'¿Qué pasó después de que aparecieron en África?', o:['Se extendieron por todo el mundo','Se quedaron siempre en el mismo lugar','Construyeron grandes ciudades','Viajaron en barco a América'], e:'Después se extendieron por todo el mundo.'},
+    {i:'🎒', p:'¿Qué significa que eran nómadas?', o:['Que se trasladaban de un lugar a otro en busca de alimento','Que vivían siempre en el mismo lugar','Que sembraban sus propios alimentos','Que vivían en grandes ciudades'], e:'Eran nómadas: se trasladaban en busca de alimento.'},
+    {i:'🍖', p:'¿Cómo conseguían su alimento?', o:['Cazaban, pescaban y recolectaban frutos','Sembraban maíz y trigo','Lo compraban en mercados','Criaban ganado en granjas'], e:'Cazaban, pescaban y recolectaban frutos.'},
+    {i:'🏕️', p:'¿Dónde vivían?', o:['En cuevas o chozas hechas con ramas y pieles de animales','En casas de piedra y ladrillo','En palacios y templos','En ciudades amuralladas'], e:'Vivían en cuevas o chozas hechas con ramas y pieles de animales.'},
+    {i:'🧠', p:'¿Cuál de estos factores los hizo evolucionar?', o:['El trabajo en grupo','El uso de monedas','La invención de la escritura','La construcción de ciudades'], e:'Evolucionaron por la necesidad de sobrevivir, el uso de herramientas, el trabajo en grupo y el desarrollo del lenguaje.'},
+    {i:'🤔', p:'¿Cuál de estos NO fue un factor que los hizo evolucionar?', o:['El comercio con monedas','La necesidad de sobrevivir','El uso de herramientas','El desarrollo del lenguaje'], e:'El comercio con monedas no aparece: es muy posterior.'},
+    {i:'🪨', p:'¿De qué material eran sus primeras herramientas?', o:['De piedra','De hierro','De bronce','De plástico'], e:'Crearon herramientas de piedra.'},
+    {i:'🔥', p:'¿Cuál fue uno de sus grandes descubrimientos?', o:['El fuego','La electricidad','La pólvora','La imprenta'], e:'Descubrieron el fuego.'},
+    {i:'👨‍👩‍👧', p:'¿Cómo se organizaban?', o:['Formaron grupos y familias','Formaron reinos con reyes','Formaron países con fronteras','Vivían completamente solos'], e:'Formaron grupos y familias.'},
+    {i:'💡', p:'Según la infografía, ¿qué surgió gracias a ellos?', o:['La cultura, la sociedad y el conocimiento','El comercio marítimo','Los imperios europeos','Las primeras máquinas'], e:'Gracias a ellos surgió la cultura, la sociedad y el conocimiento que hoy nos hace humanos.'},
+    {i:'🎨', p:'¿Qué tipo de arte nos dejaron?', o:['Pinturas rupestres','Pinturas al óleo','Esculturas de bronce','Fotografías'], e:'Su arte fueron las pinturas rupestres.'},
+    {i:'📜', p:'¿Cuál de estos forma parte de su legado?', o:['El inicio de la historia de la humanidad','El descubrimiento de América','La invención del internet','La construcción de las pirámides'], e:'Su legado: la tecnología, el arte, la organización social y el inicio de la historia de la humanidad.'}
+  ]
+},
+{
+  id: 'culturas-mexico',
+  emoji: '🗿',
+  titulo: 'Las Culturas de México',
+  corto: 'Pueblos originarios · Mesoamérica',
+  imagen: 'infografia-culturas-mexico.jpg',
+  alt: 'Infografía de las culturas de México: qué son, principales culturas prehispánicas, aportes de mayas, mexicas, zapotecas, toltecas, mixtecas y olmecas, características, importancia y legado.',
+  porJuego: 10,
+  dim: [1254, 1254],
+  zonas: [
+    {t:'Un país diverso', r:[372,165,512,84],
+     intro:'México es un país con una <b>gran diversidad cultural</b>, formada por tres raíces.',
+     puntos:[
+       '<b>Los pueblos originarios</b>: las civilizaciones que vivían aquí miles de años antes de la llegada de los españoles.',
+       '<b>La influencia española</b>: a partir del siglo XVI llegaron el idioma español, la religión católica y nuevos alimentos y animales.',
+       '<b>Las tradiciones vivas</b>: fiestas, comidas, lenguas y artesanías que se siguen practicando hoy.',
+       'A la mezcla de estas raíces se le llama <b>mestizaje</b>.'],
+     dato:'México es uno de los países con mayor diversidad cultural y de lenguas en todo el mundo.'},
+    {t:'¿Qué son?', r:[12,250,266,298],
+     intro:'Son los <b>pueblos</b>, con sus costumbres, lenguas, tradiciones, creencias y expresiones artísticas.',
+     puntos:[
+       'Una <b>cultura</b> es la forma de vivir de un pueblo: cómo habla, qué come, en qué cree, cómo se viste y qué celebra.',
+       'A las culturas que existían antes de la llegada de los españoles se les llama <b>prehispánicas</b>.',
+       'La mayoría se desarrolló en <b>Mesoamérica</b>, una región que abarcaba el centro y sur de México y parte de Centroamérica.',
+       'Compartían rasgos: cultivaban <b>maíz</b>, construían pirámides, tenían calendario y practicaban el juego de pelota.'],
+     dato:'Estas culturas no desaparecieron: sus descendientes siguen vivos y conservan sus lenguas y tradiciones en muchos estados del país.'},
+    {t:'Principales culturas prehispánicas', r:[916,240,332,380],
+     intro:'En México florecieron <b>grandes civilizaciones</b> en distintas épocas y regiones.',
+     puntos:[
+       '<b>Olmecas</b>: costa del Golfo (Veracruz y Tabasco). La más antigua, por eso se le llama “cultura madre”.',
+       '<b>Mayas</b>: península de Yucatán, Chiapas y Centroamérica. <b>Teotihuacanos</b>: centro de México.',
+       '<b>Toltecas</b>: Tula, en Hidalgo. <b>Mexicas</b>: Valle de México.',
+       '<b>Zapotecas</b> y <b>mixtecas</b>: Oaxaca.'],
+     dato:'Teotihuacan significa “lugar donde los hombres se convierten en dioses”. Ese nombre se lo dieron los mexicas siglos después, cuando encontraron la ciudad ya abandonada.'},
+    {t:'Mayas', r:[8,718,208,270],
+     intro:'Destacaron en <b>astronomía</b>, <b>calendario</b> y <b>arquitectura</b>.',
+     puntos:[
+       'Vivieron en el sureste de México (Yucatán, Campeche, Quintana Roo, Chiapas y Tabasco) y en Centroamérica.',
+       'Observaban el Sol, la Luna y Venus con gran precisión. Su calendario solar tenía <b>365 días</b>.',
+       'Usaban el <b>cero</b> en sus matemáticas y tenían una escritura con jeroglíficos.',
+       'Construyeron ciudades como <b>Chichén Itzá</b>, <b>Palenque</b> y <b>Uxmal</b>.'],
+     dato:'En los equinoccios, la luz del Sol dibuja una serpiente que parece bajar por la escalinata de la pirámide de Kukulcán, en Chichén Itzá.'},
+    {t:'Aztecas (Mexicas)', r:[220,718,204,270],
+     intro:'Destacaron por su <b>agricultura en chinampas</b>, su capital <b>Tenochtitlan</b> y sus <b>leyendas</b>.',
+     puntos:[
+       'Las <b>chinampas</b> eran islotes de tierra construidos sobre el lago para sembrar. Todavía se usan en Xochimilco.',
+       'Fundaron <b>Tenochtitlan</b> en 1325, sobre un islote del lago de Texcoco, donde hoy está la Ciudad de México.',
+       'Hablaban <b>náhuatl</b>. De esa lengua vienen palabras como chocolate, tomate y aguacate.',
+       'Su imperio terminó en 1521, con la conquista española.'],
+     dato:'Según la leyenda, debían fundar su ciudad donde encontraran un águila sobre un nopal. Esa imagen es hoy el escudo de la bandera de México.'},
+    {t:'Zapotecas', r:[427,726,200,260],
+     intro:'Destacaron por su <b>escritura</b>, su <b>arte en barro</b> y sus <b>textiles</b>.',
+     puntos:[
+       'Se desarrollaron en los <b>Valles Centrales de Oaxaca</b>.',
+       'Su gran capital fue <b>Monte Albán</b>, construida en lo alto de un cerro hace unos 2,500 años.',
+       'Crearon uno de los sistemas de <b>escritura</b> más antiguos de Mesoamérica.',
+       'Elaboraban <b>urnas de barro</b> con figuras de sus dioses y tejían finas telas.'],
+     dato:'Se llamaban a sí mismos “Binnizá”, que significa “gente de las nubes”. El zapoteco se sigue hablando hoy en Oaxaca.'},
+    {t:'Toltecas', r:[630,726,200,260],
+     intro:'Destacaron por su <b>arte monumental</b> y su <b>conocimiento astronómico</b>.',
+     puntos:[
+       'Su capital fue <b>Tula</b>, en el actual estado de Hidalgo.',
+       'Esculpieron los <b>Atlantes de Tula</b>: guerreros de piedra de más de 4 metros de altura.',
+       'Eran guerreros, pero también grandes artistas y constructores.',
+       'Adoraban a <b>Quetzalcóatl</b>, la serpiente emplumada.'],
+     dato:'Los mexicas los admiraban tanto que la palabra “tolteca” llegó a significar “artista” o “maestro constructor”.'},
+    {t:'Mixtecas', r:[832,726,210,260],
+     intro:'Destacaron por su <b>arte pictórico</b>, sus <b>textiles</b> y sus <b>conocimientos agrícolas</b>.',
+     puntos:[
+       'Vivieron en Oaxaca, Puebla y Guerrero, en la región llamada <b>la Mixteca</b>.',
+       'Pintaron <b>códices</b>: libros hechos con piel de venado donde contaban su historia con dibujos.',
+       'Fueron excelentes <b>orfebres</b>: trabajaban el oro, la plata y la turquesa.',
+       'Su cerámica pintada de muchos colores es de las más finas de Mesoamérica.'],
+     dato:'Se nombran a sí mismos “Ñuu Savi”, el “pueblo de la lluvia”. El tesoro de la Tumba 7 de Monte Albán es obra de artesanos mixtecos.'},
+    {t:'Olmecas', r:[1045,720,202,266],
+     intro:'Destacaron por su <b>escultura</b> y por fundar las <b>primeras ciudades</b>.',
+     puntos:[
+       'Vivieron en la costa del Golfo de México, en <b>Veracruz</b> y <b>Tabasco</b>, hace más de 3,000 años.',
+       'Tallaron las famosas <b>cabezas colosales</b> de piedra, que pesan varias toneladas.',
+       'Sus principales centros fueron <b>San Lorenzo</b>, <b>La Venta</b> y <b>Tres Zapotes</b>.',
+       'Se les llama <b>“cultura madre”</b> porque influyeron en las culturas que vinieron después.'],
+     dato:'Transportaron las enormes piedras de sus cabezas colosales desde muy lejos, sin usar la rueda ni animales de carga.'},
+    {t:'Características', r:[8,998,366,196],
+     intro:'Aunque cada cultura es distinta, comparten <b>rasgos en común</b>.',
+     puntos:[
+       '<b>Gran diversidad de lenguas</b>: hoy se hablan <b>68 lenguas indígenas</b> en México, como el náhuatl, el maya, el mixteco y el zapoteco.',
+       '<b>Profundo respeto a la naturaleza</b>: la tierra, la lluvia, el Sol y el maíz eran sagrados.',
+       '<b>Riqueza artística y arquitectónica</b>: pirámides, templos, esculturas, cerámica y códices.',
+       '<b>Tradiciones que perduran</b>: fiestas, danzas, comidas y artesanías que pasan de generación en generación.'],
+     dato:'La milpa, donde se siembran juntos el maíz, el frijol y la calabaza, es un invento mesoamericano que se sigue usando en el campo mexicano.'},
+    {t:'Importancia', r:[384,998,358,200],
+     intro:'Son la <b>raíz de nuestra identidad</b> como mexicanos.',
+     puntos:[
+       'Nos enseñan el <b>valor de nuestras raíces y tradiciones</b>.',
+       '<b>Enriquecen la cultura</b> de México y del mundo con su arte, sus conocimientos y sus alimentos.',
+       'Gracias a ellas el mundo conoce el <b>maíz</b>, el <b>cacao</b>, el <b>jitomate</b>, el <b>chile</b> y el <b>aguacate</b>.',
+       'Sus zonas arqueológicas son visitadas por personas de todo el planeta.'],
+     dato:'El Día de Muertos y la cocina tradicional mexicana están reconocidos por la UNESCO como Patrimonio Cultural Inmaterial de la Humanidad.'},
+    {t:'Su legado', r:[884,996,362,172],
+     intro:'Su herencia está presente <b>en nuestra vida diaria</b>.',
+     puntos:[
+       '<b>Su idioma</b>: usamos muchas palabras de origen indígena, como “elote”, “papalote”, “cacahuate” y “apapachar”.',
+       '<b>Su comida</b>: tortillas, tamales, mole, atole y chocolate.',
+       '<b>Sus costumbres y fiestas</b>: el Día de Muertos, la Guelaguetza y las danzas tradicionales.',
+       '<b>Su arte y sus conocimientos</b>: textiles, alfarería, medicina tradicional y agricultura.'],
+     dato:'El nombre “México” viene del náhuatl. Una de las interpretaciones más conocidas es “en el ombligo de la Luna”.'}
+  ],
+  preguntas: [
+    {i:'🎭', p:'¿Qué son las culturas de México?', o:['Los pueblos con sus costumbres, lenguas, tradiciones, creencias y expresiones artísticas','Solo las pirámides y zonas arqueológicas','Los estados y ciudades del país','Las leyes y el gobierno de México'], e:'Son los pueblos, sus costumbres, lenguas, tradiciones, creencias y expresiones artísticas.'},
+    {i:'🌈', p:'¿De qué es resultado la gran diversidad cultural de México?', o:['De la herencia de sus pueblos originarios, la influencia española y sus tradiciones vivas','Solo de la influencia española','Del comercio con Asia','De las ciudades modernas'], e:'Es resultado de la herencia de sus pueblos originarios, la influencia española y sus tradiciones vivas.'},
+    {i:'🗿', p:'¿A qué cultura se le conoce como “la cultura madre”?', o:['Olmecas','Mayas','Mexicas','Toltecas'], e:'Los olmecas son la cultura madre.'},
+    {i:'🔭', p:'Según la infografía, ¿qué cultura era “experta en astronomía”?', o:['Mayas','Olmecas','Mexicas','Zapotecas'], e:'Los mayas eran expertos en astronomía.'},
+    {i:'🏙️', p:'¿Quiénes fueron “constructores de grandes ciudades”?', o:['Teotihuacanos','Mixtecas','Toltecas','Zapotecas'], e:'Los teotihuacanos fueron constructores de grandes ciudades.'},
+    {i:'⚔️', p:'¿Qué cultura se describe como “guerreros y artistas”?', o:['Toltecas','Olmecas','Mayas','Zapotecas'], e:'Los toltecas eran guerreros y artistas.'},
+    {i:'🦅', p:'¿Quiénes fundaron Tenochtitlán?', o:['Los mexicas','Los mayas','Los olmecas','Los mixtecas'], e:'Los mexicas fueron los fundadores de Tenochtitlán.'},
+    {i:'🏺', p:'¿Qué cultura se describe como “grandes artesanos”?', o:['Zapotecas','Teotihuacanos','Olmecas','Mexicas'], e:'Los zapotecas eran grandes artesanos.'},
+    {i:'📜', p:'¿Qué cultura se describe como “sabios y artistas”?', o:['Mixtecas','Olmecas','Mexicas','Teotihuacanos'], e:'Los mixtecas eran sabios y artistas.'},
+    {i:'📆', p:'¿Qué cultura aportó el calendario?', o:['Mayas','Olmecas','Zapotecas','Mixtecas'], e:'Los mayas aportaron astronomía, calendario y arquitectura.'},
+    {i:'🌽', p:'¿Qué cultura practicaba la agricultura en chinampas?', o:['Aztecas (Mexicas)','Mayas','Olmecas','Toltecas'], e:'Los aztecas (mexicas) aportaron la agricultura en chinampas.'},
+    {i:'✍️', p:'¿Qué cultura aportó escritura, arte en barro y textiles?', o:['Zapotecas','Mayas','Olmecas','Toltecas'], e:'Los zapotecas aportaron escritura, arte en barro y textiles.'},
+    {i:'🏛️', p:'¿Qué cultura aportó el arte monumental?', o:['Toltecas','Mixtecas','Mexicas','Zapotecas'], e:'Los toltecas aportaron arte monumental y conocimiento astronómico.'},
+    {i:'🎨', p:'¿Qué cultura aportó el arte pictórico?', o:['Mixtecas','Olmecas','Mayas','Mexicas'], e:'Los mixtecas aportaron arte pictórico, textiles y conocimientos agrícolas.'},
+    {i:'🧱', p:'¿Qué cultura aportó la escultura y las primeras ciudades?', o:['Olmecas','Mixtecas','Mexicas','Zapotecas'], e:'Los olmecas aportaron la escultura y las primeras ciudades.'},
+    {i:'🗣️', p:'¿Cuál es una característica de las culturas de México?', o:['Gran diversidad de lenguas','Todas hablaban el mismo idioma','No tenían tradiciones','No construyeron edificios'], e:'Características: gran diversidad de lenguas, respeto a la naturaleza, riqueza artística y tradiciones que perduran.'},
+    {i:'🌱', p:'¿Por qué son importantes las culturas de México?', o:['Porque son la raíz de nuestra identidad','Porque ya no existen','Porque llegaron de Europa','Porque solo se conocen en México'], e:'Son la raíz de nuestra identidad y enriquecen la cultura de México y del mundo.'},
+    {i:'🎉', p:'¿Cuál de estos forma parte de su legado?', o:['Su idioma, su comida, sus costumbres y sus fiestas','Los barcos y las carabelas','El idioma español','Las fábricas y las máquinas'], e:'Su legado: su idioma, su comida, sus costumbres y fiestas, su arte y conocimientos, y el orgullo de ser mexicanos.'}
   ]
 }
 ];
@@ -516,6 +665,7 @@ function pintarMenu() {
 function ir(id) { if (location.hash.slice(1) === id) ruta(); else location.hash = id; }
 function ruta() {
   $('ficha').classList.remove('abierta'); cerrarVisor();
+  document.querySelectorAll('.confeti').forEach(e => e.remove());
   const id = location.hash.slice(1);
   const t = TEMAS.find(x => x.id === id);
   document.querySelectorAll('.tema-btn').forEach(b => b.classList.toggle('activo', !!t && b.dataset.id === t.id));
@@ -600,11 +750,12 @@ function pantallaInicio() {
   const n = Math.min(tema.porJuego, tema.preguntas.length);
   const mejor = leer('historia-mejor-' + tema.id);
   $('quiz').innerHTML = `<div class="tarjeta inicio">
+    <div class="q-emoji" aria-hidden="true">${tema.emoji || '📜'}</div>
     <h2>Quiz: ${esc(tema.titulo)}</h2>
-    <p>Responde las preguntas con lo que aprendiste en la infografía.</p>
-    <ul><li>📜 ${n} preguntas</li><li>🔀 Cambian en cada intento</li><li>✅ Respuesta al instante</li></ul>
-    <button class="btn oro" id="comenzar">¡Comenzar!</button>
-    ${mejor ? `<p class="mejor">Tu mejor resultado en este dispositivo: ${esc(mejor)} de ${n}</p>` : ''}
+    <p>🧠 Demuestra lo que aprendiste en la infografía.</p>
+    <ul><li>❓ ${n} preguntas</li><li>🔀 Cambian en cada intento</li><li>⚡ Respuesta al instante</li><li>🔥 Suma rachas</li></ul>
+    <button class="btn oro" id="comenzar">🚀 ¡Comenzar!</button>
+    ${mejor ? `<p class="mejor">🏅 Tu mejor resultado en este dispositivo: ${esc(mejor)} de ${n}</p>` : ''}
   </div>`;
   $('comenzar').onclick = iniciar;
 }
@@ -612,62 +763,95 @@ function iniciar() {
   const n = Math.min(tema.porJuego, tema.preguntas.length);
   juego = {
     lista: mezclar(tema.preguntas).slice(0, n).map(q => ({ q, ops: mezclar(q.o), correcta: q.o[0] })),
-    i: 0, aciertos: 0, fallos: []
+    i: 0, aciertos: 0, racha: 0, mejorRacha: 0, marcas: [], fallos: []
   };
   pintarPregunta();
 }
+function pasos() {
+  return juego.lista.map((_, k) => {
+    const m = juego.marcas[k];
+    return `<span class="${k === juego.i && m === undefined ? 'ahora' : ''}">${m === undefined ? (k === juego.i ? '👉' : k + 1) : m ? '✅' : '❌'}</span>`;
+  }).join('');
+}
+function marcador() {
+  return `⭐ ${juego.aciertos}` + (juego.racha >= 2 ? ` <span class="racha">· 🔥 Racha de ${juego.racha}</span>` : '');
+}
 function pintarPregunta() {
-  const { lista, i, aciertos } = juego, it = lista[i];
+  const { lista, i } = juego, it = lista[i];
   $('quiz').innerHTML = `<div class="tarjeta">
-    <div class="barra-top"><span>Pregunta ${i + 1} de ${lista.length}</span><span class="pts">Aciertos: ${aciertos}</span></div>
-    <div class="progreso" role="progressbar" aria-valuemin="0" aria-valuemax="${lista.length}" aria-valuenow="${i}"><div style="width:${i / lista.length * 100}%"></div></div>
+    <div class="barra-top"><span>❓ Pregunta ${i + 1} de ${lista.length}</span><span class="pts" id="pts">${marcador()}</span></div>
+    <div class="pasos" id="pasos" aria-hidden="true">${pasos()}</div>
+    <div class="q-emoji" aria-hidden="true">${it.q.i || '❓'}</div>
     <p class="pregunta">${esc(it.q.p)}</p>
     <div class="opciones">${it.ops.map((o, k) =>
-      `<button class="opcion" data-k="${k}"><span class="letra">${'ABCD'[k]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+      `<button class="opcion" data-k="${k}"><span class="letra">${'ABCD'[k]}</span><span>${esc(o)}</span><span class="marca-r" aria-hidden="true"></span></button>`).join('')}</div>
     <div class="aviso" id="aviso" aria-live="polite"></div>
-    <div class="pie"><button class="btn" id="sig" disabled>${i + 1 === lista.length ? 'Ver resultado' : 'Siguiente →'}</button></div>
+    <div class="pie"><button class="btn" id="sig" disabled>${i + 1 === lista.length ? '🏁 Ver resultado' : 'Siguiente ➡️'}</button></div>
   </div>`;
   $('quiz').querySelectorAll('.opcion').forEach(b => b.onclick = () => responder(+b.dataset.k));
   $('sig').onclick = () => { juego.i++; juego.i < juego.lista.length ? pintarPregunta() : pintarFinal(); };
 }
+const uno = a => a[Math.floor(Math.random() * a.length)];
 function responder(k) {
   const it = juego.lista[juego.i], elegida = it.ops[k], ok = elegida === it.correcta;
   $('quiz').querySelectorAll('.opcion').forEach((b, j) => {
     b.disabled = true;
-    if (it.ops[j] === it.correcta) b.classList.add('bien');
-    else if (j === k) b.classList.add('mal');
+    const m = b.querySelector('.marca-r');
+    if (it.ops[j] === it.correcta) { b.classList.add('bien'); m.textContent = '✅'; }
+    else if (j === k) { b.classList.add('mal'); m.textContent = '❌'; }
     else b.classList.add('apagada');
   });
-  if (ok) juego.aciertos++; else juego.fallos.push({ p: it.q.p, tu: elegida, ok: it.correcta });
+  juego.marcas[juego.i] = ok;
+  if (ok) { juego.aciertos++; juego.racha++; juego.mejorRacha = Math.max(juego.mejorRacha, juego.racha); }
+  else { juego.racha = 0; juego.fallos.push({ i: it.q.i, p: it.q.p, tu: elegida, ok: it.correcta }); }
   const a = $('aviso');
   a.className = 'aviso ' + (ok ? 'bien' : 'mal');
-  a.innerHTML = (ok ? '¡Correcto!' : 'Incorrecto.') + `<span>${esc(it.q.e)}</span>`;
-  document.querySelector('.pts').textContent = 'Aciertos: ' + juego.aciertos;
+  const cara = ok ? (juego.racha >= 3 ? '🔥' : uno(['🎉', '🤩', '👏', '💪', '😎'])) : uno(['😅', '🤔', '😬', '🙈']);
+  const texto = ok ? (juego.racha >= 3 ? `¡Imparable! ${juego.racha} seguidas` : uno(['¡Correcto!', '¡Muy bien!', '¡Excelente!', '¡Así se hace!']))
+                   : uno(['¡Casi!', 'No fue esa…', '¡Ups!']);
+  a.innerHTML = `<span class="cara" aria-hidden="true">${cara}</span><div>${texto}<span>💡 ${esc(it.q.e)}</span></div>`;
+  $('pts').innerHTML = marcador();
+  $('pasos').innerHTML = pasos();
   $('sig').disabled = false; $('sig').focus();
 }
+function confeti() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const piezas = ['🎉', '⭐', '🎊', '🏆', '✨', '🥳'];
+  for (let k = 0; k < 36; k++) {
+    const e = document.createElement('span');
+    e.className = 'confeti'; e.textContent = uno(piezas); e.setAttribute('aria-hidden', 'true');
+    e.style.cssText = `left:${Math.random() * 100}vw;font-size:${18 + Math.random() * 22}px;animation-duration:${2.2 + Math.random() * 2.5}s;animation-delay:${Math.random() * 1.2}s`;
+    document.body.appendChild(e);
+    e.addEventListener('animationend', () => e.remove());
+  }
+}
 function pintarFinal() {
-  const { aciertos, lista, fallos } = juego, n = lista.length;
+  const { aciertos, lista, fallos, mejorRacha } = juego, n = lista.length;
   const cal = Math.round(aciertos / n * 100) / 10;
-  const msg = cal >= 10 ? '¡Perfecto! Dominas el tema como todo un navegante experto.'
-    : cal >= 8 ? '¡Muy bien! Conoces bien el tema.'
-    : cal >= 6 ? 'Vas por buen camino. Repasa la infografía y vuelve a intentarlo.'
-    : 'Necesitas repasar. Vuelve a la infografía e inténtalo otra vez.';
+  const [trofeo, msg] = cal >= 10 ? ['🏆', '¡Perfecto! Dominas el tema como todo un experto. 🥳']
+    : cal >= 8 ? ['🥇', '¡Muy bien! Conoces muy bien el tema. 👏']
+    : cal >= 6 ? ['💪', 'Vas por buen camino. Repasa la infografía y vuelve a intentarlo.']
+    : ['📚', 'Necesitas repasar. Explora la infografía e inténtalo otra vez. ¡Tú puedes!'];
   const previo = +(leer('historia-mejor-' + tema.id) || 0);
-  if (aciertos > previo) guardar('historia-mejor-' + tema.id, String(aciertos));
+  const record = aciertos > previo;
+  if (record) guardar('historia-mejor-' + tema.id, String(aciertos));
   $('quiz').innerHTML = `<div class="tarjeta final">
+    <div class="trofeo" aria-hidden="true">${trofeo}</div>
     <h2>Resultado</h2>
     <div class="medalla" style="--p:${aciertos / n * 100}%"><div><b>${aciertos}</b><small>de ${n}</small></div></div>
+    <div class="estrellas" aria-hidden="true">${lista.map((_, k) => k < aciertos ? '⭐' : '<i>⭐</i>').join('')}</div>
     <p class="msg">${msg}</p>
-    <p class="cal">Calificación: ${cal}</p>
+    <p class="cal">📝 Calificación: ${cal}${mejorRacha >= 2 ? ` · 🔥 Mejor racha: ${mejorRacha}` : ''}${record && previo ? ' · 🏅 ¡Nuevo récord!' : ''}</p>
     <div class="acciones">
-      <button class="btn oro" id="otra">Intentar de nuevo</button>
-      <button class="btn claro" id="volver">Ver la infografía</button>
+      <button class="btn oro" id="otra">🔄 Intentar de nuevo</button>
+      <button class="btn claro" id="volver">🖼️ Ver la infografía</button>
     </div>
-    ${fallos.length ? `<div class="repaso"><h3>Repasa estas preguntas</h3><ul>${fallos.map(f =>
-      `<li><b>${esc(f.p)}</b><span class="tu">Tu respuesta: ${esc(f.tu)}</span><br><span class="ok">Correcta: ${esc(f.ok)}</span></li>`).join('')}</ul></div>` : ''}
+    ${fallos.length ? `<div class="repaso"><h3>📖 Repasa estas preguntas</h3><ul>${fallos.map(f =>
+      `<li><b>${f.i || ''} ${esc(f.p)}</b><span class="tu">❌ Tu respuesta: ${esc(f.tu)}</span><br><span class="ok">✅ Correcta: ${esc(f.ok)}</span></li>`).join('')}</ul></div>` : ''}
   </div>`;
   $('otra').onclick = iniciar;
   $('volver').onclick = () => { pestana('info'); pantallaInicio(); };
+  if (cal >= 8) confeti();
 }
 
 /* ---------- eventos ---------- */
