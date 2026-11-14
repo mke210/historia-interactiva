@@ -301,12 +301,26 @@ main{padding-top:18px}
 .ficha.zoom .lado::after{content:"Toca para regresar";bottom:10px}
 .ficha .cuerpo{padding:22px 22px 18px}
 
+/* ===== Video del tema ===== */
+.info-grid.con-video{grid-template-columns:minmax(0,1fr) 270px}
+.video-tema{display:block;width:100%;margin-top:10px;position:relative;border-radius:12px;overflow:hidden;border:2px solid var(--oro);box-shadow:var(--sombra);background:#000;cursor:zoom-in;padding:0}
+.video-tema[hidden]{display:none}
+.video-tema video{display:block;width:100%;height:auto}
+.video-tema span{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.8));color:#fff;font-weight:800;font-size:.74rem;padding:14px 8px 6px;text-align:center}
+.video-tema:hover{transform:translateY(-3px)}
+.cine{position:fixed;inset:0;background:rgba(10,14,22,.96);z-index:80;display:none;place-items:center;padding:56px 12px 12px}
+.cine.abierto{display:grid}
+.cine video{max-width:100%;max-height:calc(100vh - 80px);border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.cine .cerrar{position:fixed;top:12px;right:16px;background:#fff;color:var(--tinta);font-weight:800;padding:10px 18px;border-radius:999px}
+
 /* ===== Sonido ===== */
 .sonido{display:flex;justify-content:flex-end;margin-bottom:8px}
 .sonido button{background:var(--blanco);border:2px solid var(--borde);border-radius:999px;padding:6px 14px;font-weight:800;font-size:.88rem;color:var(--marino)}
 .sonido button:hover{border-color:var(--oro)}
 
 @media (max-width:900px){
+  .info-grid.con-video{grid-template-columns:1fr}
+  .video-tema{max-width:480px;margin-left:auto;margin-right:auto}
   .app,.app.plegado{grid-template-columns:1fr}
   .lateral,.app.plegado .lateral{flex-direction:row;flex-wrap:wrap;align-items:center;padding:8px 10px}
   .marca,.app.plegado .marca{width:auto;flex:1;border:none;padding:0;justify-content:flex-start}
@@ -380,6 +394,10 @@ main{padding-top:18px}
               <p>¿Ya exploraste todo?</p>
               <button class="btn oro" id="irQuiz">🎮 Jugar el quiz</button>
             </div>
+            <button class="video-tema" id="videoCaja" hidden aria-label="Ver el video en grande">
+              <video id="videoTema" loop muted autoplay playsinline preload="auto"></video>
+              <span>▶ Ver en grande con sonido</span>
+            </button>
           </div>
         </div>
       </div>
@@ -409,6 +427,11 @@ main{padding-top:18px}
   </div>
 </div>
 
+<div class="cine" id="cine" role="dialog" aria-modal="true" aria-label="Video del tema">
+  <button class="cerrar" id="cineCerrar">✕ Cerrar</button>
+  <video id="cineVideo" loop controls playsinline></video>
+</div>
+
 <div class="visor" id="visor" role="dialog" aria-modal="true" aria-label="Infografía ampliada">
   <span class="pista">Toca la imagen para acercar o alejar</span>
   <button class="cerrar" id="cerrarVisor">✕ Cerrar</button>
@@ -431,6 +454,7 @@ const TEMAS = [
   titulo: 'El Descubrimiento de América',
   corto: '1492 · Cristóbal Colón',
   imagen: 'infografia-descubrimiento.jpg',
+  video: 'video-descubrimiento.mp4',   // opcional: video en bucle debajo de «¿Ya exploraste todo?»
   alt: 'Infografía del Descubrimiento de América: qué fue, quién lo realizó, cuándo, cómo y por qué ocurrió, sus consecuencias e importancia.',
   porJuego: 10,
   dim: [1224, 1285],
@@ -870,13 +894,14 @@ function pintarMenu() {
 }
 function ir(id) { if (location.hash.slice(1) === id) ruta(); else location.hash = id; }
 function ruta() {
-  $('ficha').classList.remove('abierta'); cerrarVisor();
+  $('ficha').classList.remove('abierta'); cerrarVisor(); cerrarCine();
   document.querySelectorAll('.confeti').forEach(e => e.remove());
   const id = location.hash.slice(1);
   const t = TEMAS.find(x => x.id === id);
   document.querySelectorAll('.tema-btn').forEach(b => b.classList.toggle('activo', !!t && b.dataset.id === t.id));
   $('v-portada').classList.toggle('visible', !t);
   $('v-tema').classList.toggle('visible', !!t);
+  if (!t) ponerVideo(null);
   if (t) abrirTema(t);
   window.scrollTo(0, 0);
 }
@@ -889,6 +914,8 @@ function abrirTema(t) {
   vistas = new Set();
   const [W, H] = t.dim;
   document.querySelector('.info-grid').classList.toggle('ancha', W > H * 1.2);
+  document.querySelector('.info-grid').classList.toggle('con-video', !!t.video && W <= H * 1.2);
+  ponerVideo(t.video);
   $('visor').style.setProperty('--ancho', Math.max(W, 1224) * (W > H * 1.2 ? 1.5 : 1) + 'px');
   $('lienzo').querySelectorAll('.zona').forEach(z => z.remove());
   t.zonas.forEach((z, i) => {
@@ -950,6 +977,31 @@ function cerrarFicha() {
 }
 
 /* ---------- visor de la infografía ---------- *//* ---------- visor de la infografía ---------- */
+/* ---------- video del tema ---------- */
+function ponerVideo(archivo) {
+  const v = $('videoTema');
+  $('videoCaja').hidden = !archivo;
+  if (archivo) {
+    if (v.getAttribute('src') !== archivo) v.src = archivo;
+    v.muted = true; v.play().catch(() => {});
+  } else { v.pause(); v.removeAttribute('src'); v.load(); }
+}
+function abrirCine() {
+  const c = $('cineVideo');
+  c.src = tema.video; c.muted = false; c.currentTime = 0;
+  $('videoTema').pause();
+  $('cine').classList.add('abierto');
+  c.play().catch(() => {});
+  $('cineCerrar').focus();
+}
+function cerrarCine() {
+  if (!$('cine').classList.contains('abierto')) return;
+  const c = $('cineVideo');
+  c.pause(); c.removeAttribute('src'); c.load();
+  $('cine').classList.remove('abierto');
+  if (tema && tema.video && $('v-tema').classList.contains('visible')) $('videoTema').play().catch(() => {});
+}
+
 function abrirVisor() { $('visor').classList.add('abierto'); $('visor').classList.remove('grande'); $('cerrarVisor').focus(); }
 function cerrarVisor() { $('visor').classList.remove('abierto'); }
 
@@ -1117,6 +1169,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     const f = $('ficha').querySelector('.ficha');
     if (f.classList.contains('zoom')) { f.classList.remove('zoom'); return; }
+    if ($('cine').classList.contains('abierto')) { cerrarCine(); return; }
     cerrarVisor(); cerrarFicha();
   }
   if ($('ficha').classList.contains('abierta')) {
@@ -1126,6 +1179,9 @@ document.addEventListener('keydown', e => {
 });
 window.addEventListener('hashchange', ruta);
 $('infoImg').onclick = abrirVisor;
+$('videoCaja').onclick = abrirCine;
+$('cineCerrar').onclick = cerrarCine;
+$('cine').onclick = e => { if (e.target === $('cine')) cerrarCine(); };
 $('ficha').querySelector('.lado').onclick = () => $('ficha').querySelector('.ficha').classList.toggle('zoom');
 $('btnSonido').onclick = () => {
   conSonido = !conSonido; guardar('historia-sonido', conSonido ? 'si' : 'no'); pintarBtnSonido(); suena('bien');
