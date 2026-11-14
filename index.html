@@ -96,6 +96,9 @@ main{padding:34px clamp(16px,4vw,54px) 60px;min-width:0}
 .panel.visible{display:block;animation:entra .3s ease}
 
 .info-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);gap:26px;align-items:start}
+.info-grid.ancha{grid-template-columns:1fr}
+.info-grid.ancha #listaClaves{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0 12px}
+.info-grid.ancha .cta{max-width:420px;margin-left:auto;margin-right:auto}
 .marco{background:var(--blanco);border:2px solid var(--borde);border-radius:18px;padding:14px;box-shadow:var(--sombra)}
 .lienzo{position:relative}
 .lienzo img{display:block;width:100%;height:auto;border-radius:10px}
@@ -160,7 +163,7 @@ main{padding:34px clamp(16px,4vw,54px) 60px;min-width:0}
 .visor{position:fixed;inset:0;background:rgba(15,20,30,.94);z-index:50;display:none;overflow:auto;padding:60px 12px 20px;text-align:center}
 .visor.abierto{display:block}
 .visor img{max-width:100%;height:auto;border-radius:8px;cursor:zoom-in}
-.visor.grande img{max-width:none;width:1224px;cursor:zoom-out}
+.visor.grande img{max-width:none;width:var(--ancho,1224px);cursor:zoom-out}
 .visor .cerrar{position:fixed;top:12px;right:16px;background:#fff;color:var(--tinta);font-weight:800;padding:10px 18px;border-radius:999px;z-index:51}
 .visor .pista{position:fixed;top:18px;left:16px;color:#fff;opacity:.8;font-size:.9rem}
 
@@ -644,6 +647,135 @@ const TEMAS = [
     {i:'🌱', p:'¿Por qué son importantes las culturas de México?', o:['Porque son la raíz de nuestra identidad','Porque ya no existen','Porque llegaron de Europa','Porque solo se conocen en México'], e:'Son la raíz de nuestra identidad y enriquecen la cultura de México y del mundo.'},
     {i:'🎉', p:'¿Cuál de estos forma parte de su legado?', o:['Su idioma, su comida, sus costumbres y sus fiestas','Los barcos y las carabelas','El idioma español','Las fábricas y las máquinas'], e:'Su legado: su idioma, su comida, sus costumbres y fiestas, su arte y conocimientos, y el orgullo de ser mexicanos.'}
   ]
+},
+{
+  id: 'primeras-civilizaciones',
+  emoji: '🏺',
+  titulo: 'Las primeras civilizaciones',
+  corto: 'Mesopotamia · Egipto · India · China',
+  imagen: 'infografia-primeras-civilizaciones.jpg',
+  alt: 'Infografía de las primeras civilizaciones: Mesopotamia, Egipto, India y China, con su ubicación, logros clave, sociedad y gobierno.',
+  porJuego: 10,
+  dim: [1408, 768],
+  zonas: [
+    {t:'Mesopotamia: entre dos ríos', r:[25,98,330,218],
+     intro:'Surgió hacia el <b>3500 a.C.</b> entre los ríos <b>Tigris y Éufrates</b>.',
+     puntos:[
+       'Su nombre significa <b>“tierra entre ríos”</b>. Se encontraba en lo que hoy es <b>Irak</b>.',
+       'Ahí vivieron varios pueblos: <b>sumerios</b>, acadios, babilonios y asirios.',
+       'El <b>zigurat</b> era un templo escalonado hecho de adobe. El de la ciudad de <b>Ur</b> es el más famoso.',
+       'Inventaron la <b>escritura cuneiforme</b>: marcaban signos en forma de cuña sobre tablillas de arcilla húmeda.'],
+     dato:'La escritura cuneiforme es la más antigua que se conoce. Con la invención de la escritura termina la Prehistoria y comienza la Historia.'},
+    {t:'Mesopotamia: logros clave', r:[25,318,330,150],
+     intro:'Le debemos la <b>escritura</b>, las <b>primeras leyes escritas</b> y muchos inventos.',
+     puntos:[
+       'El rey <b>Hammurabi</b> de Babilonia mandó grabar en piedra un código con <b>282 leyes</b>, para que todos las conocieran.',
+       'Se les atribuye la invención de la <b>rueda</b>.',
+       'Contaban de 60 en 60: por eso una hora tiene <b>60 minutos</b> y un minuto 60 segundos.',
+       'Escribieron el <b>Poema de Gilgamesh</b>, una de las obras literarias más antiguas del mundo.'],
+     dato:'El Código de Hammurabi es famoso por la “ley del talión”: ojo por ojo, diente por diente.'},
+    {t:'Mesopotamia: sociedad y gobierno', r:[25,468,330,274],
+     intro:'Vivían en <b>ciudades-estado</b> gobernadas por un rey, y dependían de la agricultura de riego.',
+     puntos:[
+       'Cada ciudad (Ur, Uruk, Babilonia) tenía su propio <b>rey</b>, que también era jefe religioso.',
+       'Después del rey estaban los sacerdotes, los <b>escribas</b>, los artesanos y comerciantes, y los campesinos.',
+       'Construyeron <b>canales de riego</b> para llevar el agua de los ríos a sus campos.',
+       'Cultivaban <b>cebada</b>, trigo y dátiles, y criaban ovejas y cabras.'],
+     dato:'Los escribas eran de las pocas personas que sabían leer y escribir; estudiaban durante años en escuelas llamadas “casas de las tablillas”.'},
+    {t:'Egipto: el país del Nilo', r:[368,98,330,222],
+     intro:'Surgió hacia el <b>3100 a.C.</b> a orillas del río <b>Nilo</b>, en el noreste de África.',
+     puntos:[
+       'Hacia el 3100 a.C. el Alto y el Bajo Egipto se <b>unificaron</b> bajo un solo rey.',
+       'Las <b>pirámides de Giza</b> son tumbas de los faraones Keops, Kefrén y Micerino. Tienen unos 4,500 años.',
+       'Junto a ellas está la <b>Gran Esfinge</b>, con cuerpo de león y cabeza humana.',
+       'El resto del territorio es <b>desierto</b>: por eso toda la vida se concentraba junto al río.'],
+     dato:'La Gran Pirámide de Keops fue la construcción más alta del mundo durante casi 4,000 años.'},
+    {t:'Egipto: logros clave', r:[368,322,330,156],
+     intro:'Crearon la <b>escritura jeroglífica</b> y fueron gobernados por <b>faraones</b>.',
+     puntos:[
+       'Los <b>jeroglíficos</b> eran dibujos que representaban palabras y sonidos. Escribían sobre <b>papiro</b>, hecho con una planta del Nilo.',
+       'El <b>faraón</b> era considerado un dios viviente. También hubo reinas poderosas, como <b>Hatshepsut</b> y <b>Cleopatra</b>.',
+       'Practicaban la <b>momificación</b> porque creían en la vida después de la muerte.',
+       'Crearon un <b>calendario de 365 días</b> y tenían grandes conocimientos de medicina y matemáticas.'],
+     dato:'Nadie supo leer los jeroglíficos durante siglos, hasta que en 1822 se descifraron gracias a la Piedra de Rosetta.'},
+    {t:'Egipto: sociedad y el Nilo fértil', r:[368,482,330,260],
+     intro:'El <b>Nilo</b> hacía posible la agricultura, el transporte y la vida en Egipto.',
+     puntos:[
+       'Cada año el río se <b>desbordaba</b> y dejaba un lodo muy fértil, ideal para sembrar trigo, cebada y lino.',
+       'El Nilo era su gran <b>camino</b>: transportaban personas, cosechas y piedras en barcos.',
+       'La sociedad era como una <b>pirámide</b>: arriba el faraón; luego sacerdotes y nobles; después escribas y artesanos; abajo, los campesinos.',
+       'La mayoría de la población era <b>campesina</b> y pagaba impuestos con parte de su cosecha.'],
+     dato:'Un historiador griego, Heródoto, escribió que “Egipto es un don del Nilo”: sin el río, no habría existido.'},
+    {t:'India: el valle del Indo', r:[710,98,331,226],
+     intro:'Surgió hacia el <b>3300 a.C.</b> junto al río <b>Indo</b>.',
+     puntos:[
+       'Se desarrolló en lo que hoy es <b>Pakistán</b> y el noroeste de la India.',
+       'Sus ciudades más importantes fueron <b>Mohenjo-Daro</b> y <b>Harappa</b>.',
+       'Eran <b>ciudades planificadas</b>: calles rectas que se cruzaban formando cuadras, como en un plano.',
+       'Construían con <b>ladrillos cocidos</b>, todos del mismo tamaño.'],
+     dato:'Mohenjo-Daro llegó a tener decenas de miles de habitantes y fue una de las ciudades más grandes de su época.'},
+    {t:'India: logros clave', r:[710,326,331,130],
+     intro:'Fueron pioneros en el <b>urbanismo</b> y en la higiene de las ciudades.',
+     puntos:[
+       'Tenían un <b>sistema de drenaje</b>: canales cubiertos que sacaban el agua sucia de las casas.',
+       'Muchas casas contaban con <b>baño</b> y pozo de agua.',
+       'En Mohenjo-Daro construyeron el <b>Gran Baño</b>, una enorme alberca de ladrillo.',
+       'Usaban <b>pesos y medidas iguales</b> en todas sus ciudades para comerciar.'],
+     dato:'Su sistema de drenaje era tan avanzado que muchas ciudades del mundo no tuvieron algo parecido sino hasta miles de años después.'},
+    {t:'India: sociedad y comercio', r:[710,456,331,286],
+     intro:'Fue un pueblo de <b>agricultores, artesanos y comerciantes</b>.',
+     puntos:[
+       'Los <b>sellos</b> eran pequeñas piezas de piedra grabadas con animales y signos. Servían para marcar las mercancías.',
+       'Fueron de los primeros en cultivar <b>algodón</b> y tejer telas con él.',
+       'Comerciaban con pueblos lejanos, incluso con <b>Mesopotamia</b>.',
+       'No se han encontrado grandes palacios ni tumbas de reyes, así que se sabe poco de <b>cómo se gobernaban</b>.'],
+     dato:'Su escritura, que aparece en los sellos, todavía no ha podido ser descifrada por nadie.'},
+    {t:'China: el río Amarillo', r:[1055,98,329,226],
+     intro:'Surgió hacia el <b>2000 a.C.</b> junto al río <b>Huang He</b> (Amarillo).',
+     puntos:[
+       'El río se llama <b>Amarillo</b> por el color de la tierra fina que arrastra, que hace muy fértiles sus orillas.',
+       'China fue gobernada por <b>dinastías</b>: familias en las que el poder pasaba de padres a hijos.',
+       'La dinastía <b>Shang</b> es la primera de la que se conservan textos escritos.',
+       'Su <b>escritura temprana</b> se grababa en los llamados <b>huesos oraculares</b>.'],
+     dato:'La escritura china actual desciende de aquellos primeros signos: es una de las escrituras más antiguas que se siguen usando.'},
+    {t:'China: logros clave', r:[1055,326,329,226],
+     intro:'Destacan su <b>escritura</b>, la <b>seda</b> y sus grandes <b>murallas</b>.',
+     puntos:[
+       'Los <b>huesos oraculares</b> eran huesos de buey y caparazones de tortuga donde escribían preguntas para adivinar el futuro.',
+       'Descubrieron cómo fabricar <b>seda</b> con el hilo del capullo del gusano de seda. Guardaron el secreto durante siglos.',
+       'Para defenderse levantaron <b>murallas</b>, que mucho tiempo después se unieron para formar la <b>Gran Muralla</b>.',
+       'Fueron expertos en trabajar el <b>bronce</b>, con el que hacían vasijas y armas.'],
+     dato:'La seda era tan valiosa que la ruta de comercio que llevaba productos de China hasta Europa se llamó “Ruta de la Seda”.'},
+    {t:'China: sociedad y agricultura', r:[1055,552,329,190],
+     intro:'La mayoría de la población era <b>campesina</b> y vivía de la agricultura.',
+     puntos:[
+       'Cultivaban <b>arroz</b>, sobre todo en las zonas húmedas del sur, y <b>mijo</b> en el norte.',
+       'En las laderas de los cerros construyeron <b>terrazas</b> para poder sembrar y aprovechar el agua.',
+       'La sociedad estaba encabezada por el <b>rey</b> y los nobles; debajo estaban los artesanos y los campesinos.',
+       'Daban gran importancia a la <b>familia</b> y al respeto por los antepasados.'],
+     dato:'El arroz sigue siendo hoy el alimento principal de más de la mitad de la población del mundo.'}
+  ],
+  preguntas: [
+    {i:'🌊', p:'¿Qué tienen en común las cuatro primeras civilizaciones?', o:['Surgieron a orillas de grandes ríos','Surgieron en islas','Surgieron en el mismo año','Hablaban el mismo idioma'], e:'Todas surgieron junto a grandes ríos: Tigris y Éufrates, Nilo, Indo y Huang He.'},
+    {i:'🏞️', p:'¿Entre qué ríos surgió Mesopotamia?', o:['Tigris y Éufrates','Nilo e Indo','Huang He y Nilo','Indo y Tigris'], e:'Mesopotamia surgió entre los ríos Tigris y Éufrates.'},
+    {i:'🐪', p:'¿Junto a qué río surgió Egipto?', o:['Nilo','Indo','Tigris','Huang He'], e:'Egipto surgió junto al río Nilo.'},
+    {i:'🐘', p:'¿Junto a qué río surgió la civilización de la India?', o:['Indo','Nilo','Éufrates','Huang He'], e:'La civilización de la India surgió junto al río Indo.'},
+    {i:'🐉', p:'¿Junto a qué río surgió la civilización china?', o:['Huang He (Amarillo)','Indo','Nilo','Tigris'], e:'China surgió junto al río Huang He, o río Amarillo.'},
+    {i:'⏳', p:'Según la infografía, ¿cuál es la civilización más antigua?', o:['Mesopotamia (c. 3500 a.C.)','Egipto (c. 3100 a.C.)','India (c. 3300 a.C.)','China (c. 2000 a.C.)'], e:'Mesopotamia surgió hacia el 3500 a.C.'},
+    {i:'✍️', p:'¿Cómo se llama la escritura de Mesopotamia?', o:['Cuneiforme','Jeroglífica','Alfabética','Huesos oráculo'], e:'En Mesopotamia se usaba la escritura cuneiforme.'},
+    {i:'🛕', p:'¿Qué construcción de Mesopotamia aparece en la infografía?', o:['El zigurat de Ur','Las pirámides de Giza','La Gran Muralla','Mohenjo-Daro'], e:'El zigurat de Ur es de Mesopotamia.'},
+    {i:'⚖️', p:'¿Con qué nombre se relacionan las leyes de Mesopotamia?', o:['Hammurabi','Faraón','Harappa','Giza'], e:'Las leyes de Mesopotamia se relacionan con Hammurabi.'},
+    {i:'📜', p:'¿Cómo se llama la escritura del antiguo Egipto?', o:['Jeroglíficos','Cuneiforme','Sellos','Huesos oráculo'], e:'Los egipcios escribían con jeroglíficos.'},
+    {i:'👑', p:'¿Cómo se le llamaba al gobernante de Egipto?', o:['Faraón','Hammurabi','Emperador','Sacerdote'], e:'El gobernante de Egipto era el faraón.'},
+    {i:'🔺', p:'¿A qué civilización pertenecen las pirámides de Giza?', o:['Egipto','Mesopotamia','India','China'], e:'Las pirámides de Giza son de Egipto.'},
+    {i:'🏘️', p:'¿Cuáles eran las ciudades planificadas de la India?', o:['Mohenjo-Daro y Harappa','Ur y Babilonia','Giza y Menfis','Tenochtitlan y Tula'], e:'Mohenjo-Daro y Harappa eran las ciudades planificadas del valle del Indo.'},
+    {i:'🚰', p:'¿Qué logro destacaba en las ciudades de la India?', o:['El sistema de drenaje','Las pirámides','La Gran Muralla','El zigurat'], e:'Las ciudades del Indo tenían sistema de drenaje.'},
+    {i:'🧵', p:'¿De qué material eran los textiles de la India?', o:['Algodón','Seda','Lana','Lino'], e:'En la India se elaboraban textiles de algodón.'},
+    {i:'🦴', p:'¿Sobre qué se hacía la escritura temprana de China?', o:['Huesos oráculo','Tablillas de arcilla','Papiro','Sellos de piedra'], e:'La escritura temprana china se hacía en huesos oráculo.'},
+    {i:'🐛', p:'¿Qué tela se producía en China?', o:['Seda','Algodón','Lino','Lana'], e:'En China se producía seda.'},
+    {i:'🍚', p:'¿Qué cultivo destaca en la agricultura de China?', o:['Arroz','Maíz','Papa','Cacao'], e:'En China destaca la agricultura de arroz.'},
+    {i:'🧱', p:'¿En qué civilización se construyó la precursora de la Gran Muralla?', o:['China','Egipto','India','Mesopotamia'], e:'La Gran Muralla (precursora) es de China.'}
+  ]
 }
 ];
 
@@ -682,6 +814,8 @@ function abrirTema(t) {
   $('visorImg').src = t.imagen; $('visorImg').alt = t.alt;
   vistas = new Set();
   const [W, H] = t.dim;
+  document.querySelector('.info-grid').classList.toggle('ancha', W > H * 1.2);
+  $('visor').style.setProperty('--ancho', Math.max(W, 1224) * (W > H * 1.2 ? 1.5 : 1) + 'px');
   $('lienzo').querySelectorAll('.zona').forEach(z => z.remove());
   t.zonas.forEach((z, i) => {
     const [x, y, w, h] = z.r, b = document.createElement('button');
