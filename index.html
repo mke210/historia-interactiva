@@ -246,6 +246,80 @@ main{padding:34px clamp(16px,4vw,54px) 60px;min-width:0}
   .portada{min-height:70vh}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== Menú compacto y plegable ===== */
+.app{grid-template-columns:212px 1fr}
+.lateral{padding:14px 10px;gap:10px}
+.marca{gap:9px;padding-bottom:10px}
+.marca svg{width:34px;height:34px}
+.marca b{font-size:1.1rem}
+.marca small{font-size:.7rem}
+.cab-menu{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.plegar{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.12);color:#fff;font-weight:800;flex:none}
+.plegar:hover{background:var(--oro);color:#22180a}
+.temas{gap:6px}
+.tema-btn{padding:7px 9px;gap:8px;border-radius:10px;font-size:.84rem;line-height:1.2}
+.tema-btn .num{width:24px;height:24px;font-size:.76rem}
+.tema-btn span small{font-size:.68rem}
+.firma{font-size:.74rem}
+.app.plegado{grid-template-columns:54px 1fr}
+.app.plegado .lateral{padding:14px 6px;align-items:center}
+.app.plegado .marca{justify-content:center}
+.app.plegado .marca span,.app.plegado .tema-btn>span:not(.num),.app.plegado .lateral h2,.app.plegado .firma{display:none}
+.app.plegado .tema-btn{padding:6px;justify-content:center}
+.app.plegado .tema-btn:hover{transform:none}
+
+/* ===== La imagen primero ===== */
+main{padding-top:18px}
+.cabecera{margin-bottom:12px}
+.cabecera h1{font-size:clamp(1.35rem,3vw,2rem)}
+.info-grid{grid-template-columns:minmax(0,1fr) 200px;gap:16px}
+.marco{padding:8px}
+.lienzo img{cursor:zoom-in}
+.bajo{margin-top:8px;font-size:.88rem}
+.claves h2{font-size:.95rem}
+.claves .avance{font-size:.76rem;margin-bottom:8px}
+.clave{padding:5px 8px;font-size:.8rem;gap:7px;margin-bottom:6px;border-width:1px;border-radius:10px;box-shadow:0 2px 0 var(--borde);line-height:1.2}
+.clave:hover,.clave:focus-visible{transform:translateY(-2px);box-shadow:0 4px 0 var(--borde)}
+.clave .n{width:22px;height:22px;font-size:.7rem}
+.cta{padding:12px;margin-top:10px;border-radius:12px}
+.cta p{font-size:.82rem;margin-bottom:8px}
+.cta .btn{padding:8px 14px;font-size:.88rem;box-shadow:0 4px 0 #946a14}
+.info-grid.ancha #listaClaves{grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:0 8px}
+.info-grid.ancha .cta{max-width:300px}
+.visor img{max-height:calc(100vh - 80px);width:auto}
+.visor.grande img{max-height:none}
+
+/* ===== Ficha: el recuadro lo más grande posible ===== */
+.ficha{max-width:1500px;width:97vw;max-height:95vh;grid-template-columns:minmax(0,1.4fr) minmax(290px,.6fr)}
+.ficha .lado{padding:14px;cursor:zoom-in;position:relative;align-content:center}
+.recorte{width:min(100%,calc(86vh * var(--r,1)))}
+.ficha .lado::after{content:"🔍 Toca para ver más grande";position:absolute;left:50%;bottom:20px;transform:translateX(-50%);background:rgba(15,20,30,.8);color:#fff;font-weight:800;font-size:.78rem;padding:5px 12px;border-radius:999px;white-space:nowrap;pointer-events:none}
+.ficha.zoom{animation:none}
+.ficha.zoom .lado{position:fixed;inset:0;z-index:70;background:rgba(10,14,22,.97);cursor:zoom-out;padding:10px}
+.ficha.zoom .recorte{width:min(97vw,calc(96vh * var(--r,1)))}
+.ficha.zoom .lado::after{content:"Toca para regresar";bottom:10px}
+.ficha .cuerpo{padding:22px 22px 18px}
+
+/* ===== Sonido ===== */
+.sonido{display:flex;justify-content:flex-end;margin-bottom:8px}
+.sonido button{background:var(--blanco);border:2px solid var(--borde);border-radius:999px;padding:6px 14px;font-weight:800;font-size:.88rem;color:var(--marino)}
+.sonido button:hover{border-color:var(--oro)}
+
+@media (max-width:900px){
+  .app,.app.plegado{grid-template-columns:1fr}
+  .lateral,.app.plegado .lateral{flex-direction:row;flex-wrap:wrap;align-items:center;padding:8px 10px}
+  .marca,.app.plegado .marca{width:auto;flex:1;border:none;padding:0;justify-content:flex-start}
+  .app.plegado .marca span{display:block}
+  .temas{width:100%}
+  .app.plegado .temas{display:none}
+  .tema-btn{min-width:165px}
+  .info-grid{grid-template-columns:1fr}
+  #listaClaves{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0 8px}
+  .ficha{grid-template-columns:1fr}
+  .recorte{width:min(100%,calc(48vh * var(--r,1)))}
+  .ficha .lado{padding:10px 56px 10px 10px}
+}
 </style>
 </head>
 <body>
@@ -255,7 +329,7 @@ main{padding:34px clamp(16px,4vw,54px) 60px;min-width:0}
       <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="#e9c46a" stroke-width="2"/><path d="M24 4l5 15 15 5-15 5-5 15-5-15-15-5 15-5z" fill="#e9c46a"/><circle cx="24" cy="24" r="3" fill="#1b3358"/></svg>
       <span><b>Historia</b><small>Portal interactivo</small></span>
     </button>
-    <h2>Temas</h2>
+    <div class="cab-menu"><h2>Temas</h2><button class="plegar" id="plegar" aria-expanded="true" aria-controls="menuTemas" title="Contraer temas">«</button></div>
     <ul class="temas" id="menuTemas"></ul>
     <p class="firma">powered by <b>elprofe chan</b></p>
   </aside>
@@ -311,7 +385,7 @@ main{padding:34px clamp(16px,4vw,54px) 60px;min-width:0}
       </div>
 
       <div class="panel" id="p-quiz" role="tabpanel">
-        <div class="quiz" id="quiz"></div>
+        <div class="quiz"><div class="sonido"><button id="btnSonido" aria-pressed="true">🔊 Sonido activado</button></div><div id="quiz"></div></div>
       </div>
     </section>
   </main>
@@ -791,7 +865,7 @@ let tema = null, juego = null, vistas = new Set(), fichaI = 0;
 /* ---------- menú y navegación ---------- */
 function pintarMenu() {
   $('menuTemas').innerHTML = TEMAS.map((t, i) =>
-    `<li><button class="tema-btn" data-id="${t.id}"><span class="num">${i + 1}</span><span>${esc(t.titulo)}<small>${esc(t.corto)}</small></span></button></li>`).join('');
+    `<li><button class="tema-btn" data-id="${t.id}" title="${esc(t.titulo)}"><span class="num">${i + 1}</span><span>${esc(t.titulo)}<small>${esc(t.corto)}</small></span></button></li>`).join('');
   $('menuTemas').querySelectorAll('button').forEach(b => b.onclick = () => ir(b.dataset.id));
 }
 function ir(id) { if (location.hash.slice(1) === id) ruta(); else location.hash = id; }
@@ -858,7 +932,7 @@ function pintarAvance() {
 function abrirFicha(i) {
   const n = tema.zonas.length; i = (i + n) % n; fichaI = i;
   const z = tema.zonas[i];
-  $('fichaRecorte').style.cssText = fondo(tema, z) + `aspect-ratio:${z.r[2]}/${z.r[3]};max-width:min(100%,${Math.round(58 * z.r[2] / z.r[3])}vh);`;
+  $('fichaRecorte').style.cssText = fondo(tema, z) + `aspect-ratio:${z.r[2]}/${z.r[3]};--r:${z.r[2] / z.r[3]};`;
   $('fichaCeja').textContent = `${tema.titulo} · ${i + 1} de ${n}`;
   $('fichaTitulo').textContent = z.t;
   $('fichaIntro').innerHTML = z.intro;
@@ -871,7 +945,7 @@ function abrirFicha(i) {
 }
 function cerrarFicha() {
   if (!$('ficha').classList.contains('abierta')) return;
-  $('ficha').classList.remove('abierta');
+  $('ficha').classList.remove('abierta'); $('ficha').querySelector('.ficha').classList.remove('zoom');
   const z = $('lienzo').querySelectorAll('.zona')[fichaI]; if (z) z.focus({preventScroll: true});
 }
 
@@ -893,7 +967,42 @@ function pantallaInicio() {
   </div>`;
   $('comenzar').onclick = iniciar;
 }
+/* ---------- sonidos (generados en el navegador, sin archivos) ---------- */
+let audio = null, conSonido = leer('historia-sonido') !== 'no';
+function nota(f, t, dur, tipo = 'sine', vol = .18, f2) {
+  const o = audio.createOscillator(), g = audio.createGain(), t0 = audio.currentTime + t;
+  o.type = tipo; o.frequency.setValueAtTime(f, t0);
+  if (f2) o.frequency.exponentialRampToValueAtTime(f2, t0 + dur);
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(vol, t0 + .015);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  o.connect(g); g.connect(audio.destination); o.start(t0); o.stop(t0 + dur + .03);
+}
+const SONIDOS = {
+  inicio:  () => [262, 330, 392, 523].forEach((f, k) => nota(f, k * .09, .16, 'triangle')),
+  bien:    () => { nota(659, 0, .13, 'triangle'); nota(880, .1, .25, 'triangle'); },
+  racha:   () => [659, 784, 988, 1319].forEach((f, k) => nota(f, k * .07, .2, 'triangle')),
+  mal:     () => { nota(220, 0, .22, 'sawtooth', .12, 150); nota(160, .2, .32, 'sawtooth', .12, 100); },
+  tic:     () => nota(520, 0, .06, 'square', .06),
+  victoria:() => [523, 659, 784, 1047, 784, 1047, 1319].forEach((f, k) => nota(f, k * .13, k > 4 ? .5 : .18, 'triangle', .2)),
+  regular: () => [392, 494, 587].forEach((f, k) => nota(f, k * .14, .25, 'triangle')),
+  animo:   () => [392, 349, 330].forEach((f, k) => nota(f, k * .2, .32, 'sine'))
+};
+function suena(cual) {
+  if (!conSonido) return;
+  try {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    if (audio.state === 'suspended') audio.resume();
+    SONIDOS[cual]();
+  } catch (e) {}
+}
+function pintarBtnSonido() {
+  $('btnSonido').textContent = conSonido ? '🔊 Sonido activado' : '🔇 Sonido apagado';
+  $('btnSonido').setAttribute('aria-pressed', conSonido);
+}
+
 function iniciar() {
+  suena('inicio');
   const n = Math.min(tema.porJuego, tema.preguntas.length);
   juego = {
     lista: mezclar(tema.preguntas).slice(0, n).map(q => ({ q, ops: mezclar(q.o), correcta: q.o[0] })),
@@ -923,7 +1032,7 @@ function pintarPregunta() {
     <div class="pie"><button class="btn" id="sig" disabled>${i + 1 === lista.length ? '🏁 Ver resultado' : 'Siguiente ➡️'}</button></div>
   </div>`;
   $('quiz').querySelectorAll('.opcion').forEach(b => b.onclick = () => responder(+b.dataset.k));
-  $('sig').onclick = () => { juego.i++; juego.i < juego.lista.length ? pintarPregunta() : pintarFinal(); };
+  $('sig').onclick = () => { suena('tic'); juego.i++; juego.i < juego.lista.length ? pintarPregunta() : pintarFinal(); };
 }
 const uno = a => a[Math.floor(Math.random() * a.length)];
 function responder(k) {
@@ -936,6 +1045,7 @@ function responder(k) {
     else b.classList.add('apagada');
   });
   juego.marcas[juego.i] = ok;
+  suena(ok ? (juego.racha >= 2 ? 'racha' : 'bien') : 'mal');
   if (ok) { juego.aciertos++; juego.racha++; juego.mejorRacha = Math.max(juego.mejorRacha, juego.racha); }
   else { juego.racha = 0; juego.fallos.push({ i: it.q.i, p: it.q.p, tu: elegida, ok: it.correcta }); }
   const a = $('aviso');
@@ -986,6 +1096,7 @@ function pintarFinal() {
   $('otra').onclick = iniciar;
   $('volver').onclick = () => { pestana('info'); pantallaInicio(); };
   if (cal >= 8) confeti();
+  suena(cal >= 8 ? 'victoria' : cal >= 6 ? 'regular' : 'animo');
 }
 
 /* ---------- eventos ---------- */
@@ -1003,13 +1114,33 @@ $('fichaAnt').onclick = () => abrirFicha(fichaI - 1);
 $('fichaSig').onclick = () => abrirFicha(fichaI + 1);
 $('ficha').onclick = e => { if (e.target === $('ficha')) cerrarFicha(); };
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { cerrarVisor(); cerrarFicha(); }
+  if (e.key === 'Escape') {
+    const f = $('ficha').querySelector('.ficha');
+    if (f.classList.contains('zoom')) { f.classList.remove('zoom'); return; }
+    cerrarVisor(); cerrarFicha();
+  }
   if ($('ficha').classList.contains('abierta')) {
     if (e.key === 'ArrowRight') abrirFicha(fichaI + 1);
     if (e.key === 'ArrowLeft') abrirFicha(fichaI - 1);
   }
 });
 window.addEventListener('hashchange', ruta);
+$('infoImg').onclick = abrirVisor;
+$('ficha').querySelector('.lado').onclick = () => $('ficha').querySelector('.ficha').classList.toggle('zoom');
+$('btnSonido').onclick = () => {
+  conSonido = !conSonido; guardar('historia-sonido', conSonido ? 'si' : 'no'); pintarBtnSonido(); suena('bien');
+};
+function plegar(si) {
+  document.querySelector('.app').classList.toggle('plegado', si);
+  $('plegar').textContent = si ? '»' : '«';
+  $('plegar').title = si ? 'Mostrar temas' : 'Contraer temas';
+  $('plegar').setAttribute('aria-expanded', !si);
+  $('plegar').setAttribute('aria-label', $('plegar').title);
+  guardar('historia-menu', si ? 'plegado' : 'abierto');
+}
+$('plegar').onclick = () => plegar(!document.querySelector('.app').classList.contains('plegado'));
+plegar(leer('historia-menu') === 'plegado');
+pintarBtnSonido();
 pintarMenu(); ruta();
 </script>
 </body>
