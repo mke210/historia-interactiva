@@ -1059,6 +1059,126 @@ const TEMAS = [
     {i:'💎', p:'¿Qué productos intercambiaban en el comercio interregional?', o:['Jade, obsidiana y cacao','Seda, arroz y té','Oro, trigo y caballos','Hierro, lana y vino'], e:'Comerciaban jade, obsidiana y cacao.'},
     {i:'🏛️', p:'¿Qué tipo de construcciones destacan en su arquitectura?', o:['Templos piramidales','Castillos con murallas','Zigurats de adobe','Palacios de madera'], e:'Destacan los templos piramidales.'}
   ]
+},
+{
+  id: 'islam',
+  emoji: '☪️',
+  titulo: 'El Islam',
+  corto: 'Religión · Fe, pilares y prácticas',
+  imagen: 'infografia-islam.jpg',
+  alt: 'Infografía sobre el Islam: qué es, quién es Mahoma, sus creencias, sus 5 pilares, cómo se practica, dónde se practica, datos interesantes y resumen.',
+  porJuego: 10,
+  dim: [1312, 1199],
+  zonas: [
+    {t:'¿Qué es?', r:[18,203,617,225],
+     intro:'El Islam es una religión <b>monoteísta</b>: cree en un solo Dios.',
+     puntos:[
+       'Sus seguidores se llaman <b>musulmanes</b>. “Alá” es la palabra en árabe para decir “Dios”.',
+       'Nació en la <b>península arábiga</b> en el siglo VII, con las enseñanzas del profeta Mahoma.',
+       'Comparte raíces con el judaísmo y el cristianismo: son las tres religiones de <b>Abraham</b>.'],
+     dato:'Los cristianos que hablan árabe también dicen “Alá” para referirse a Dios.'},
+    {t:'¿Quién es Mahoma?', r:[648,203,648,225],
+     intro:'Fue un <b>profeta</b>, no un dios: un hombre elegido para transmitir el mensaje de Dios.',
+     puntos:[
+       'Nació en <b>La Meca</b> hacia el año 570 y trabajó como comerciante.',
+       'A los 40 años, según la tradición, recibió la revelación a través del <b>ángel Gabriel</b>.',
+       'En el año 622 viajó a <b>Medina</b>. Ese viaje se llama <b>Hégira</b> y marca el inicio del calendario islámico.'],
+     dato:'Por respeto, muchos musulmanes evitan dibujar el rostro de Mahoma; la imagen de la infografía es solo ilustrativa.'},
+    {t:'¿Cuáles son sus creencias?', r:[18,440,617,308],
+     intro:'Los musulmanes creen en un solo Dios, sus profetas, el Corán, el Juicio Final y el destino.',
+     puntos:[
+       'Entre los <b>profetas</b> están Adán, Noé, Abraham, Moisés, Jesús y Mahoma. A Jesús lo respetan como profeta, no como hijo de Dios.',
+       'El <b>Corán</b> es su libro sagrado y tiene 114 capítulos llamados <b>suras</b>.',
+       'Creen en el <b>Día del Juicio Final</b> y en el <b>destino</b> (decreto divino).',
+       'La tradición también incluye la creencia en los <b>ángeles</b>.'],
+     dato:'Los musulmanes consideran que el Corán está completo solo en su idioma original, el árabe.'},
+    {t:'Sus 5 pilares', r:[646,440,650,88],
+     intro:'Son las <b>prácticas fundamentales</b> que todo musulmán procura cumplir.',
+     puntos:[
+       'Son cinco: la <b>profesión de fe</b>, la <b>oración</b>, la <b>caridad</b>, el <b>ayuno</b> y la <b>peregrinación</b>.',
+       'Se llaman “pilares” porque sostienen la vida religiosa, como columnas sostienen un edificio.',
+       'Toca cada símbolo de la infografía para conocerlos uno por uno.'],
+     dato:'En árabe se llaman “Arkan al-Islam”.'},
+    {t:'Profesión de fe (Shahada)', r:[650,532,118,213],
+     intro:'Es declarar la fe: <b>“No hay más dios que Dios, y Mahoma es su mensajero”</b>.',
+     puntos:[
+       'Es el primer pilar y el más importante.',
+       'Quien la dice con sinceridad se considera musulmán.',
+       'Se repite en las oraciones y se susurra al oído de los recién nacidos.'],
+     dato:'El dedo índice levantado de la imagen simboliza la unidad de Dios.'},
+    {t:'Oración (Salah)', r:[780,532,118,213],
+     intro:'Los musulmanes oran <b>cinco veces al día</b>, mirando hacia La Meca.',
+     puntos:[
+       'Los momentos son: al amanecer, mediodía, tarde, atardecer y noche.',
+       'Antes de orar se hace una limpieza con agua llamada <b>ablución</b>.',
+       'Se ora sobre una <b>alfombra</b> y los viernes se reúnen en la <b>mezquita</b>.'],
+     dato:'La dirección hacia La Meca se llama <b>quibla</b>.'},
+    {t:'Caridad (Zakat)', r:[910,532,118,213],
+     intro:'Es dar una parte de los ahorros a las personas que más lo necesitan.',
+     puntos:[
+       'Se da cada año, normalmente <b>el 2.5 %</b> de los ahorros, por quien puede hacerlo.',
+       'Ayuda a pobres, viajeros necesitados y personas con deudas.',
+       'Enseña que la riqueza debe compartirse.'],
+     dato:'“Zakat” significa “purificación”: dar purifica el corazón y los bienes.'},
+    {t:'Ayuno (Sawm)', r:[1040,532,118,213],
+     intro:'Durante el mes de <b>Ramadán</b> no se come ni se bebe desde el amanecer hasta el atardecer.',
+     puntos:[
+       'Ramadán es el <b>noveno mes</b> del calendario lunar islámico.',
+       'Están exentos los niños, enfermos, embarazadas y viajeros.',
+       'Al terminar se celebra la fiesta del <b>Eid al-Fitr</b>, con comida en familia.'],
+     dato:'Como el calendario es lunar, Ramadán cambia de fechas cada año.'},
+    {t:'Peregrinación a La Meca (Hajj)', r:[1170,532,120,213],
+     intro:'Todo musulmán que pueda debe viajar a <b>La Meca</b> al menos una vez en la vida.',
+     puntos:[
+       'Se realiza en un mes específico del año lunar.',
+       'Los peregrinos rodean la <b>Kaaba</b>, el cubo negro de la imagen, hacia la que oran todos los musulmanes.',
+       'Millones de personas de todo el mundo se reúnen vestidas de manera sencilla.'],
+     dato:'La Meca está en Arabia Saudita. Solo los musulmanes pueden entrar a la ciudad.'},
+    {t:'¿Cómo es su práctica?', r:[18,760,757,232],
+     intro:'Se vive a diario: oración, ayuno, caridad y una vida <b>justa y solidaria</b>.',
+     puntos:[
+       'Oran cinco veces al día hacia La Meca y ayunan en Ramadán.',
+       'Siguen reglas de alimentación: la comida permitida se llama <b>halal</b> (no comen cerdo ni beben alcohol).',
+       'El día de reunión es el <b>viernes</b>, en la mezquita.'],
+     dato:'Las mezquitas se decoran con caligrafía y figuras geométricas, no con imágenes de personas.'},
+    {t:'¿Dónde se practica?', r:[790,760,506,232],
+     intro:'Se practica en <b>muchos países del mundo</b>, no solo en Medio Oriente.',
+     puntos:[
+       'Nació en Arabia, pero hoy la mayoría de los musulmanes vive en <b>Asia</b>.',
+       'El país con más musulmanes es <b>Indonesia</b>; también hay muchos en Pakistán, India y Bangladesh.',
+       'Hay comunidades en África, Europa y América, incluido México.'],
+     dato:'Solo alrededor de 1 de cada 5 musulmanes es de origen árabe.'},
+    {t:'Datos interesantes', r:[18,1004,650,164],
+     intro:'Tres datos que ayudan a entender el Islam.',
+     puntos:[
+       'Es la <b>segunda religión</b> con más seguidores del mundo, después del cristianismo.',
+       'El Corán fue revelado en <b>árabe</b>.',
+       '“Islam” significa <b>“sumisión a Dios”</b>; viene de una raíz relacionada con la palabra “paz”.'],
+     dato:'Muchas palabras del español vienen del árabe: aceite, azúcar, alcalde y ojalá.'},
+    {t:'En resumen', r:[682,1004,614,164],
+     intro:'El Islam invita a creer en un solo Dios, practicar el bien y vivir con respeto hacia los demás.',
+     puntos:[
+       'Tiene <b>cinco pilares</b> que guían su práctica.',
+       'Su mensaje destaca la fe, la comunidad y la ayuda a los necesitados.',
+       'Conocerlo nos ayuda a convivir con respeto en un mundo diverso.'],
+     dato:'Entre 711 y 1492, gran parte de España fue Al-Ándalus, de cultura islámica. Ese mismo año, 1492, llegó Colón a América.'}
+  ],
+  preguntas: [
+    {i:'☝️', p:'¿En cuántos dioses creen los musulmanes?', o:['En uno solo','En dos','En tres','En muchos'], e:'El Islam es monoteísta: cree en un solo Dios.'},
+    {i:'📖', p:'¿Cómo se llama el libro sagrado del Islam?', o:['El Corán','La Biblia','La Torá','Los Vedas'], e:'El Corán, revelado en árabe.'},
+    {i:'👼', p:'¿A través de qué ángel recibió Mahoma la revelación?', o:['Gabriel','Miguel','Rafael','Uriel'], e:'Fue el ángel Gabriel.'},
+    {i:'🧔', p:'¿Quién fue Mahoma?', o:['Un profeta','Un dios','Un rey de Egipto','Un navegante'], e:'Mahoma fue un profeta, no un dios.'},
+    {i:'🔢', p:'¿Cuántos pilares tiene el Islam?', o:['5','3','7','10'], e:'Son 5 pilares.'},
+    {i:'🕌', p:'¿Cuántas veces al día oran los musulmanes?', o:['5 veces','1 vez','3 veces','7 veces'], e:'Oran 5 veces al día (Salah).'},
+    {i:'🌙', p:'¿Qué mes dedican los musulmanes al ayuno?', o:['Ramadán','Enero','Diciembre','Hajj'], e:'Ayunan en el mes de Ramadán (Sawm).'},
+    {i:'🕋', p:'¿Hacia qué ciudad se dirigen cuando oran?', o:['La Meca','Jerusalén','El Cairo','Roma'], e:'Oran en dirección a La Meca.'},
+    {i:'❤️', p:'¿Cómo se llama el pilar de la caridad?', o:['Zakat','Shahada','Hajj','Sawm'], e:'La caridad es el Zakat.'},
+    {i:'🧳', p:'¿Cómo se llama la peregrinación a La Meca?', o:['Hajj','Zakat','Salah','Sawm'], e:'La peregrinación a La Meca es el Hajj.'},
+    {i:'🗣️', p:'¿Qué significa la palabra “Islam”?', o:['Sumisión a Dios','Libro sagrado','Ciudad santa','Profeta'], e:'“Islam” significa “sumisión a Dios”.'},
+    {i:'🌍', p:'¿En qué idioma fue revelado el Corán?', o:['Árabe','Hebreo','Latín','Griego'], e:'El Corán fue revelado en árabe.'},
+    {i:'📊', p:'¿Qué lugar ocupa el Islam entre las religiones más practicadas?', o:['Segundo','Primero','Tercero','Quinto'], e:'Es la segunda religión más practicada del mundo.'},
+    {i:'👆', p:'¿Cuál es el pilar que consiste en declarar la fe?', o:['Shahada','Zakat','Hajj','Salah'], e:'Es la profesión de fe (Shahada).'}
+  ]
 }
 ];
 
